@@ -11,12 +11,14 @@
   --dashed: #b6c0cf;
   --dot: rgba(100, 116, 139, 0.22);
   --ink-faint: #94a3b8;
-  --pv-line: #e2e8f0;
   --pv-track: #e9edf3;
   --pv-lec: #fde3e6;
   --pv-lab: #dbe7fd;
   --pv-lab-edge: #bfd3fb;
   --pv-lunch: #fbecc0;
+  --pv-lec-ink: #7a1f26;
+  --pv-lab-ink: #1d4ed8;
+  --break-ink: #854d0e;
   --pv-c1: #C21B27; --pv-c2: #2563eb; --pv-c3: #d97706; --pv-c4: #7c3aed; --pv-c5: #0891b2;
   --ink: #0f172a;
   --ink-body: #334155;
@@ -49,12 +51,14 @@
     --dashed: #3a4757;
     --dot: rgba(159, 176, 194, 0.14);
     --ink-faint: #5b6879;
-    --pv-line: #26313f;
     --pv-track: #1f2935;
     --pv-lec: rgba(248, 113, 113, 0.22);
     --pv-lab: rgba(96, 165, 250, 0.22);
     --pv-lab-edge: rgba(96, 165, 250, 0.35);
     --pv-lunch: rgba(251, 191, 36, 0.16);
+    --pv-lec-ink: #fecdd3;
+    --pv-lab-ink: #bfdbfe;
+    --break-ink: #fcd34d;
     --pv-c1: #ef4444; --pv-c2: #3b82f6; --pv-c3: #f59e0b; --pv-c4: #8b5cf6; --pv-c5: #06b6d4;
     --ink: #e7edf4;
     --ink-body: #c3cfdc;
@@ -181,10 +185,18 @@ a { color: inherit; text-decoration: none; }
 .card:hover .pv { transform: translateY(-6px); }
 
 /* Shared pieces: text drawn as grey lines, a small pill, a top row. */
-.pv-line { display: block; height: 7px; border-radius: 4px; background: var(--pv-line); }
-.w15 { width: 15%; } .w30 { width: 30%; } .w40 { width: 40%; } .w50 { width: 50%; }
+/* Real words, small: grey bars standing in for text read as a page still
+   loading, which made the hub look like a placeholder. */
+.pv-label {
+  font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 10px; font-weight: 600;
+  color: var(--ink-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+}
+.pv-title {
+  font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 10.5px; font-weight: 700;
+  color: var(--ink); white-space: nowrap;
+}
+.pv-note { font-size: 8.5px; color: var(--ink-muted); }
 .push { margin-left: auto; }
-.pv-pill { width: 34px; height: 12px; border-radius: 999px; background: var(--red-tint-strong); flex: none; }
 .pv-bar-top { display: flex; align-items: center; gap: 8px; padding-bottom: 2px; }
 
 /* Academic Dashboard: range presets, then the school tile grid. */
@@ -194,12 +206,6 @@ a { color: inherit; text-decoration: none; }
 }
 .pv-presets span { padding: 2px 7px; border-radius: 4px; font-size: 9px; }
 .pv-presets .is-on { background: var(--red-ink); color: #fff; }
-.pv-summary {
-  margin-left: auto; display: flex; align-items: center; gap: 6px;
-  padding: 4px 8px; border: 1px solid var(--hairline); border-radius: 6px;
-}
-.pv-summary .pv-line { width: 38px; }
-.pv-summary .pv-pill { width: 22px; height: 8px; }
 .pv-schools {
   flex: 1; display: grid; gap: 7px; min-height: 0;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -214,7 +220,6 @@ a { color: inherit; text-decoration: none; }
   width: 18px; height: 18px; flex: none; fill: none; stroke: var(--red-ink);
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
-.pv-school .pv-line { width: 60%; height: 6px; }
 .pv-track { display: block; width: 100%; height: 4px; border-radius: 2px; background: var(--pv-track); overflow: hidden; }
 .pv-fill { display: block; height: 100%; border-radius: 2px; background: var(--red-ink); }
 /* Not reported: faded, as the dashboard draws a school with no data. */
@@ -226,7 +231,9 @@ a { color: inherit; text-decoration: none; }
   display: flex; flex-direction: column; gap: 8px; padding: 10px 12px;
   border-radius: 8px; background: var(--header-from);
 }
-.pv-line.on-red { background: rgba(255, 255, 255, 0.55); }
+.pv-banner-title {
+  font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 11px; font-weight: 700; color: #fff;
+}
 .pv-months { display: flex; gap: 5px; }
 .pv-month {
   padding: 2px 6px; border-radius: 4px; font-size: 9px;
@@ -248,16 +255,25 @@ a { color: inherit; text-decoration: none; }
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-template-rows: repeat(5, minmax(0, 1fr));
 }
-.pv-slot { border-radius: 4px; }
+.pv-slot, .pv-lunch {
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  border-radius: 4px; font-size: 8px; font-weight: 600;
+}
+.pv-lec { color: var(--pv-lec-ink); }
+.pv-lab { color: var(--pv-lab-ink); }
 .pv-lec { background: var(--pv-lec); }
 .pv-lab { background: var(--pv-lab); box-shadow: inset 0 0 0 1px var(--pv-lab-edge); }
-.pv-lunch { grid-column: 1 / -1; border-radius: 4px; background: var(--pv-lunch); }
+.pv-lunch { grid-column: 1 / -1; background: var(--pv-lunch); color: var(--break-ink); letter-spacing: 0.08em; text-transform: uppercase; }
 
 /* Research Publications: the stacked bar by type and its legend. */
 .pv-stack { display: flex; height: 12px; border-radius: 4px; overflow: hidden; gap: 2px; flex: none; }
 .pv-legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; }
 .pv-key { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
 .pv-dot { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.pv-export {
+  padding: 2px 8px; border-radius: 5px; font-size: 9px;
+  background: var(--red-ink); color: #fff;
+}
 .pv-tiles { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .pv-tile {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
@@ -267,7 +283,6 @@ a { color: inherit; text-decoration: none; }
   width: 18px; height: 18px; fill: none; stroke: var(--red-ink);
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
-.pv-tile .pv-line { width: 55%; }
 .pv-stack.thin { width: 80%; height: 5px; gap: 1px; border-radius: 3px; }
 .c1 { background: var(--pv-c1); } .c2 { background: var(--pv-c2); } .c3 { background: var(--pv-c3); }
 .c4 { background: var(--pv-c4); } .c5 { background: var(--pv-c5); }
@@ -275,10 +290,12 @@ a { color: inherit; text-decoration: none; }
 /* A phone-width card: fewer rows, so nothing is squeezed. */
 @container (max-width: 400px) {
   .pv { padding: 11px 12px; gap: 7px; }
-  .pv-school .pv-line, .pv-summary { display: none; }
+  .pv-presets span:not(.is-on) { display: none; }
+  .pv-label { font-size: 9px; }
   .pv-school { gap: 5px; padding: 4px 8px; }
   .pv-tile { gap: 4px; padding: 4px; }
-  .pv-tile .pv-line { display: none; }
+  .pv-tile .pv-label, .pv-school .pv-label { display: none; }
+  .pv-slot { font-size: 0; }
   .pv-month:nth-child(n+5) { display: none; }
 }
 .card-body { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 22px 26px 20px; }
@@ -288,6 +305,18 @@ a { color: inherit; text-decoration: none; }
 }
 .card h2 { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 26px; font-weight: 700; }
 .card-blurb { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-body); }
+/* The one thing each tool can point to, said plainly as a sentence with its
+   figures in bold, behind a small seal: a fact quoted, not a slogan shouted.
+   Aligned with the title and blurb above it. */
+.card-proof {
+  display: flex; align-items: flex-start; gap: 8px; margin-top: 4px;
+  font-size: 14.5px; line-height: 1.5; color: var(--ink-soft);
+}
+.card-proof svg {
+  width: 17px; height: 17px; flex: none; margin-top: 2px; fill: none; stroke: var(--red-ink);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.card-proof b { font-weight: 600; color: var(--ink); }
 .card-foot {
   margin-top: auto; padding-top: 14px; border-top: 1px solid var(--divider);
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;

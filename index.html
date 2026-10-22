@@ -6,6 +6,19 @@
   <title>ADYPU Academic Systems</title>
   <meta name="description" content="Every academic tool at Ajeenkya D Y Patil University, in one place.">
   <link rel="icon" href="img/favicon.png">
+  <meta name="theme-color" content="#C21B27">
+  <!-- The card WhatsApp and others show when the link is shared. The image URL
+       must be absolute, so it names the live address: change it with the site's. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ADYPU Academic Systems">
+  <meta property="og:title" content="ADYPU Academic Systems">
+  <meta property="og:description" content="Every academic tool at Ajeenkya D Y Patil University, in one place: attendance, the monthly report, timetables and research.">
+  <meta property="og:url" content="https://adypu.pages.dev/">
+  <meta property="og:image" content="https://adypu.pages.dev/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ADYPU Academic Systems: every academic tool, one link">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
@@ -78,6 +91,10 @@
         <path d="M20 16a8 8 0 1 0-16 0" />
         <path d="M12 4v4M10 4h4" />
       </symbol>
+      <symbol id="icon-seal" viewBox="0 0 24 24">
+        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+        <path d="m9 12 2 2 4-4" />
+      </symbol>
       <symbol id="icon-lock" viewBox="0 0 24 24">
         <rect x="4" y="11" width="16" height="10" rx="2" />
         <path d="M8 11V7a4 4 0 0 1 8 0v4" />
@@ -117,162 +134,174 @@
 
   <main class="wrap cards-area">
     <div class="cards">
-              <a class="card" href="https://adypu-daybook.fast-page.org/" target="_blank" rel="noopener">
-          <span class="card-art"><span class="pv pv-attendance" aria-hidden="true">    <span class="pv-bar-top">
-      <span class="pv-presets"><span>Day</span><span class="is-on">Today</span><span>7 days</span></span>
-      <span class="pv-summary"><span class="pv-line"></span><span class="pv-pill"></span></span>
-    </span>
-    <span class="pv-schools">
-            <span class="pv-school">
-        <svg><use href="#icon-eng" /></svg>
-        <span class="pv-line"></span>
-        <span class="pv-track"><span class="pv-fill" style="width: 72%"></span></span>
-      </span>
-            <span class="pv-school">
-        <svg><use href="#icon-mgmt" /></svg>
-        <span class="pv-line"></span>
-        <span class="pv-track"><span class="pv-fill" style="width: 48%"></span></span>
-      </span>
-            <span class="pv-school">
-        <svg><use href="#icon-law" /></svg>
-        <span class="pv-line"></span>
-        <span class="pv-track"><span class="pv-fill" style="width: 63%"></span></span>
-      </span>
-            <span class="pv-school is-idle">
-        <svg><use href="#icon-design" /></svg>
-        <span class="pv-line"></span>
-        <span class="pv-track"><span class="pv-fill" style="width: 0%"></span></span>
-      </span>
-            <span class="pv-school">
-        <svg><use href="#icon-science" /></svg>
-        <span class="pv-line"></span>
-        <span class="pv-track"><span class="pv-fill" style="width: 81%"></span></span>
-      </span>
-            <span class="pv-school is-idle">
-        <svg><use href="#icon-hosp" /></svg>
-        <span class="pv-line"></span>
-        <span class="pv-track"><span class="pv-fill" style="width: 0%"></span></span>
-      </span>
+      <a class="card" href="https://adypu-daybook.fast-page.org/" target="_blank" rel="noopener">
+        <span class="card-art">
+          <!-- Shapes and labels only, never numbers: a glance at the hub must not
+               read an invented figure as today's. Hidden from screen readers. -->
+          <span class="pv pv-attendance" aria-hidden="true">
+            <span class="pv-bar-top">
+              <span class="pv-presets"><span>Day</span><span class="is-on">Today</span><span>7 days</span></span>
+              <span class="pv-title push">Schools</span>
+            </span>
+            <span class="pv-schools">
+              <span class="pv-school">
+                <svg><use href="#icon-eng" /></svg>
+                <span class="pv-label">Engineering</span>
+                <span class="pv-track"><span class="pv-fill" style="width: 72%"></span></span>
+              </span>
+              <span class="pv-school">
+                <svg><use href="#icon-mgmt" /></svg>
+                <span class="pv-label">Management</span>
+                <span class="pv-track"><span class="pv-fill" style="width: 48%"></span></span>
+              </span>
+              <span class="pv-school">
+                <svg><use href="#icon-law" /></svg>
+                <span class="pv-label">Law</span>
+                <span class="pv-track"><span class="pv-fill" style="width: 63%"></span></span>
+              </span>
+              <span class="pv-school is-idle">
+                <svg><use href="#icon-design" /></svg>
+                <span class="pv-label">Design</span>
+                <span class="pv-note">Not reported</span>
+              </span>
+              <span class="pv-school">
+                <svg><use href="#icon-science" /></svg>
+                <span class="pv-label">Science</span>
+                <span class="pv-track"><span class="pv-fill" style="width: 81%"></span></span>
+              </span>
+              <span class="pv-school is-idle">
+                <svg><use href="#icon-hosp" /></svg>
+                <span class="pv-label">Hospitality</span>
+                <span class="pv-note">Not reported</span>
+              </span>
+            </span>
           </span>
-    </span></span>
-          <span class="card-body">
+        </span>
+        <span class="card-body">
           <h2>Academic Dashboard</h2>
           <p class="card-blurb">Daily attendance and room timetables.</p>
-          <div class="card-foot">
-                          <span class="tag tag-open">Open to all</span>
-                        <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          <span class="card-proof"><svg aria-hidden="true"><use href="#icon-seal" /></svg><span><b>1,800+ attendance updates</b> and <b>4,900+ page views</b> in 30 days.</span></span>
+          <span class="card-foot">
+            <span class="tag tag-open">Open to all</span>
+            <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
             <span class="sr-only">(opens in a new tab)</span>
-          </div>
           </span>
-        </a>
-              <a class="card" href="https://adypuacademic.github.io/adypuacademicreport/" target="_blank" rel="noopener">
-          <span class="card-art"><span class="pv pv-report" aria-hidden="true">    <span class="pv-banner">
-      <span class="pv-line w50 on-red"></span>
-      <span class="pv-months">
-                <span class="pv-month">Jun</span>
-                <span class="pv-month">Jul</span>
-                <span class="pv-month">Aug</span>
-                <span class="pv-month is-on">Sep</span>
-                <span class="pv-month is-off">Oct</span>
-              </span>
-    </span>
-    <span class="pv-chart">
-            <span class="pv-col" style="height: 38%"></span>
-            <span class="pv-col" style="height: 52%"></span>
-            <span class="pv-col" style="height: 46%"></span>
-            <span class="pv-col" style="height: 64%"></span>
-            <span class="pv-col" style="height: 58%"></span>
-            <span class="pv-col" style="height: 78%"></span>
-            <span class="pv-col" style="height: 70%"></span>
-            <span class="pv-col is-now" style="height: 92%"></span>
+        </span>
+      </a>
+      <a class="card" href="https://adypuacademic.github.io/adypuacademicreport/" target="_blank" rel="noopener">
+        <span class="card-art">
+          <span class="pv pv-report" aria-hidden="true">
+            <span class="pv-banner">
+              <span class="pv-banner-title">Monthly Report Dashboard</span>
+              <span class="pv-months"><span class="pv-month">Jun</span><span class="pv-month">Jul</span><span class="pv-month">Aug</span><span class="pv-month is-on">Sep</span><span class="pv-month is-off">Oct</span></span>
+            </span>
+            <span class="pv-title">Admissions</span>
+            <span class="pv-chart">
+              <span class="pv-col" style="height: 38%"></span>
+              <span class="pv-col" style="height: 52%"></span>
+              <span class="pv-col" style="height: 46%"></span>
+              <span class="pv-col" style="height: 64%"></span>
+              <span class="pv-col" style="height: 58%"></span>
+              <span class="pv-col" style="height: 78%"></span>
+              <span class="pv-col" style="height: 70%"></span>
+              <span class="pv-col is-now" style="height: 92%"></span>
+            </span>
           </span>
-    </span></span>
-          <span class="card-body">
+        </span>
+        <span class="card-body">
           <h2>Chairman Dashboard</h2>
           <p class="card-blurb">The monthly report, school by school.</p>
-          <div class="card-foot">
-                          <span class="tag tag-open">Open to all</span>
-                        <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          <span class="card-proof"><svg aria-hidden="true"><use href="#icon-seal" /></svg><span>Read by the <b>Chairman</b> every month, with every report since May.</span></span>
+          <span class="card-foot">
+            <span class="tag tag-open">Open to all</span>
+            <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
             <span class="sr-only">(opens in a new tab)</span>
-          </div>
           </span>
-        </a>
-              <a class="card" href="https://adypu-timetable.22web.org/index.php" target="_blank" rel="noopener">
-          <span class="card-art"><span class="pv pv-timetable" aria-hidden="true">    <span class="pv-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></span>
-    <span class="pv-grid">
-                                          <span class="pv-slot pv-lec" style="grid-row: 1; grid-column: 1"></span>
-                                      <span class="pv-slot pv-lab" style="grid-row: 1 / span 2; grid-column: 2"></span>
-                                      <span class="pv-slot pv-lec" style="grid-row: 1; grid-column: 3"></span>
-                                                        <span class="pv-slot pv-lab" style="grid-row: 1 / span 2; grid-column: 5"></span>
-                                                                                                <span class="pv-slot pv-lec" style="grid-row: 2; grid-column: 3"></span>
-                                      <span class="pv-slot pv-lec" style="grid-row: 2; grid-column: 4"></span>
-                                                          <span class="pv-lunch" style="grid-row: 3"></span>
-                                            <span class="pv-slot pv-lab" style="grid-row: 4 / span 2; grid-column: 1"></span>
-                                      <span class="pv-slot pv-lec" style="grid-row: 4; grid-column: 2"></span>
-                                                        <span class="pv-slot pv-lab" style="grid-row: 4 / span 2; grid-column: 4"></span>
-                                      <span class="pv-slot pv-lec" style="grid-row: 4; grid-column: 5"></span>
-                                                                                                <span class="pv-slot pv-lec" style="grid-row: 5; grid-column: 3"></span>
-                                                                </span>
-    </span></span>
-          <span class="card-body">
+        </span>
+      </a>
+      <a class="card" href="https://adypu-timetable.22web.org/index.php" target="_blank" rel="noopener">
+        <span class="card-art">
+          <span class="pv pv-timetable" aria-hidden="true">
+            <span class="pv-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></span>
+            <span class="pv-grid">
+              <span class="pv-slot pv-lec" style="grid-row: 1; grid-column: 1">Lecture</span>
+              <span class="pv-slot pv-lab" style="grid-row: 1 / span 2; grid-column: 2">Lab</span>
+              <span class="pv-slot pv-lec" style="grid-row: 1; grid-column: 3">Lecture</span>
+              <span class="pv-slot pv-lab" style="grid-row: 1 / span 2; grid-column: 5">Lab</span>
+              <span class="pv-slot pv-lec" style="grid-row: 2; grid-column: 3">Lecture</span>
+              <span class="pv-slot pv-lec" style="grid-row: 2; grid-column: 4">Lecture</span>
+              <span class="pv-slot pv-lab" style="grid-row: 4 / span 2; grid-column: 1">Lab</span>
+              <span class="pv-slot pv-lec" style="grid-row: 4; grid-column: 2">Lecture</span>
+              <span class="pv-slot pv-lab" style="grid-row: 4 / span 2; grid-column: 4">Lab</span>
+              <span class="pv-slot pv-lec" style="grid-row: 4; grid-column: 5">Lecture</span>
+              <span class="pv-slot pv-lec" style="grid-row: 5; grid-column: 3">Lecture</span>
+              <span class="pv-lunch" style="grid-row: 3">Lunch</span>
+            </span>
+          </span>
+        </span>
+        <span class="card-body">
           <h2>Timetable Generator</h2>
           <p class="card-blurb">Clash-free timetables for Engineering.</p>
-          <div class="card-foot">
-                          <span class="tag tag-login"><svg aria-hidden="true"><use href="#icon-lock" /></svg>Login required</span>
-                        <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          <span class="card-proof"><svg aria-hidden="true"><use href="#icon-seal" /></svg><span>Places <b>762 teaching hours</b> for <b>37 classes</b> and <b>61 faculty</b>.</span></span>
+          <span class="card-foot">
+            <span class="tag tag-login"><svg aria-hidden="true"><use href="#icon-lock" /></svg>Login required</span>
+            <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
             <span class="sr-only">(opens in a new tab)</span>
-          </div>
           </span>
-        </a>
-              <a class="card" href="https://adypu-research.fast-page.org/" target="_blank" rel="noopener">
-          <span class="card-art"><span class="pv pv-research" aria-hidden="true">    <span class="pv-bar-top"><span class="pv-line w30"></span><span class="pv-pill push"></span></span>
-    <span class="pv-stack">
-      <span class="c1" style="width: 40%"></span><span class="c2" style="width: 27%"></span><span class="c3" style="width: 16%"></span><span class="c4" style="width: 9%"></span><span class="c5" style="width: 8%"></span>    </span>
-    <span class="pv-legend">
-            <span class="pv-key"><span class="pv-dot c1"></span>Journal</span>
-            <span class="pv-key"><span class="pv-dot c2"></span>Conference</span>
-            <span class="pv-key"><span class="pv-dot c3"></span>Chapter</span>
-            <span class="pv-key"><span class="pv-dot c4"></span>Patent</span>
+        </span>
+      </a>
+      <a class="card" href="https://adypu-research.fast-page.org/" target="_blank" rel="noopener">
+        <span class="card-art">
+          <span class="pv pv-research" aria-hidden="true">
+            <span class="pv-bar-top"><span class="pv-title">All publications</span><span class="pv-export push">Export</span></span>
+            <span class="pv-stack"><span class="c1" style="width: 40%"></span><span class="c2" style="width: 27%"></span><span class="c3" style="width: 16%"></span><span class="c4" style="width: 9%"></span><span class="c5" style="width: 8%"></span></span>
+            <span class="pv-legend">
+              <span class="pv-key"><span class="pv-dot c1"></span>Journal</span>
+              <span class="pv-key"><span class="pv-dot c2"></span>Conference</span>
+              <span class="pv-key"><span class="pv-dot c3"></span>Chapter</span>
+              <span class="pv-key"><span class="pv-dot c4"></span>Patent</span>
+            </span>
+            <span class="pv-tiles">
+              <span class="pv-tile">
+                <svg><use href="#icon-eng" /></svg>
+                <span class="pv-label">Engineering</span>
+                <span class="pv-stack thin"><span class="c1" style="width: 45%"></span><span class="c2" style="width: 30%"></span><span class="c3" style="width: 25%"></span></span>
+              </span>
+              <span class="pv-tile">
+                <svg><use href="#icon-law" /></svg>
+                <span class="pv-label">Law</span>
+                <span class="pv-stack thin"><span class="c1" style="width: 70%"></span><span class="c2" style="width: 30%"></span></span>
+              </span>
+              <span class="pv-tile">
+                <svg><use href="#icon-design" /></svg>
+                <span class="pv-label">Design</span>
+                <span class="pv-stack thin"><span class="c1" style="width: 55%"></span><span class="c2" style="width: 20%"></span><span class="c3" style="width: 25%"></span></span>
+              </span>
+            </span>
           </span>
-    <span class="pv-tiles">
-            <span class="pv-tile">
-        <svg><use href="#icon-eng" /></svg>
-        <span class="pv-line w50"></span>
-        <span class="pv-stack thin"><span class="c1" style="width: 45%"></span><span class="c2" style="width: 30%"></span><span class="c3" style="width: 25%"></span></span>
-      </span>
-            <span class="pv-tile">
-        <svg><use href="#icon-law" /></svg>
-        <span class="pv-line w50"></span>
-        <span class="pv-stack thin"><span class="c1" style="width: 70%"></span><span class="c2" style="width: 30%"></span></span>
-      </span>
-            <span class="pv-tile">
-        <svg><use href="#icon-design" /></svg>
-        <span class="pv-line w50"></span>
-        <span class="pv-stack thin"><span class="c1" style="width: 55%"></span><span class="c2" style="width: 20%"></span><span class="c3" style="width: 25%"></span></span>
-      </span>
-          </span>
-    </span></span>
-          <span class="card-body">
+        </span>
+        <span class="card-body">
           <h2>Research Publications</h2>
           <p class="card-blurb">Papers, books and patents, with proof.</p>
-          <div class="card-foot">
-                          <span class="tag tag-login"><svg aria-hidden="true"><use href="#icon-lock" /></svg>Login required</span>
-                        <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          <span class="card-proof"><svg aria-hidden="true"><use href="#icon-seal" /></svg><span>The research record for <b>9 schools</b> and <b>11 knowledge partners</b>.</span></span>
+          <span class="card-foot">
+            <span class="tag tag-login"><svg aria-hidden="true"><use href="#icon-lock" /></svg>Login required</span>
+            <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
             <span class="sr-only">(opens in a new tab)</span>
-          </div>
           </span>
-        </a>
-          </div>
+        </span>
+      </a>
+    </div>
 
-          <div class="soon">
-        <span class="soon-icon"><svg aria-hidden="true"><use href="#icon-award" /></svg></span>
-        <div class="soon-text">
-          <div class="soon-name">Recognition Dashboard</div>
-          <div class="soon-blurb">Accreditation, rankings and awards.</div>
-        </div>
-        <span class="soon-label">Coming soon</span>
+    <div class="soon">
+      <span class="soon-icon"><svg aria-hidden="true"><use href="#icon-award" /></svg></span>
+      <div class="soon-text">
+        <div class="soon-name">Recognition Dashboard</div>
+        <div class="soon-blurb">Accreditation, rankings and awards.</div>
       </div>
-      </main>
+      <span class="soon-label">Coming soon</span>
+    </div>
+  </main>
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
