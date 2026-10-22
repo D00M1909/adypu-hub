@@ -39,10 +39,10 @@
     // With the button on the page, the note leaves room under it, so the two
     // never overlap at the bottom of the page.
     '.adypu-cx-note.adypu-cx-clear{padding-bottom:84px}',
-    // On a phone the button folds to the compass alone, and the note keeps
-    // clear of it.
-    '@media (max-width:640px){.adypu-cx-link{padding:7px;left:12px;bottom:12px}.adypu-cx-text{display:none}',
-    '.adypu-cx-link svg{width:32px;height:32px}}',
+    // On a phone the button shrinks to the compass and one word, so it still
+    // says where it goes without covering much of the page.
+    '@media (max-width:640px){.adypu-cx-link{padding:6px 14px 6px 6px;gap:8px;left:12px;bottom:12px}',
+    '.adypu-cx-text small,.adypu-cx-long{display:none}.adypu-cx-link svg{width:28px;height:28px}}',
     '@media (prefers-reduced-motion:reduce){.adypu-cx-link,.adypu-cx-needle{transition:none}}',
     '@media print{.adypu-cx-link,.adypu-cx-note{display:none}}'
   ].join('');
@@ -74,7 +74,7 @@
         '</g>' +
         '<circle cx="32" cy="34" r="3" fill="#C21B27" stroke="#fff" stroke-width="2"/>' +
       '</svg>' +
-      '<span class="adypu-cx-text"><small>Back to</small><strong>ADYPU Compass</strong></span>';
+      '<span class="adypu-cx-text"><small>Back to</small><strong><span class="adypu-cx-long">ADYPU </span>Compass</strong></span>';
     document.body.appendChild(link);
   }
 
