@@ -44,7 +44,7 @@
     '@media (max-width:640px){.adypu-cx-link{padding:7px;left:12px;bottom:12px}.adypu-cx-text{display:none}',
     '.adypu-cx-link svg{width:32px;height:32px}}',
     '@media (prefers-reduced-motion:reduce){.adypu-cx-link,.adypu-cx-needle{transition:none}}',
-    '@media print{.adypu-cx-link{display:none}}'
+    '@media print{.adypu-cx-link,.adypu-cx-note{display:none}}'
   ].join('');
 
   function mount() {
