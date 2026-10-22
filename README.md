@@ -1,4 +1,4 @@
-# ADYPU Academic Systems
+# ADYPU Compass
 
 One page linking every academic tool at Ajeenkya D Y Patil University.
 

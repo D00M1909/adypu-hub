@@ -3,21 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ADYPU Academic Systems</title>
+  <title>ADYPU Compass</title>
   <meta name="description" content="Every academic tool at Ajeenkya D Y Patil University, in one place.">
-  <link rel="icon" href="img/favicon.png">
+  <link rel="icon" href="img/compass.svg" type="image/svg+xml">
+  <link rel="icon" href="img/compass-48.png" sizes="48x48">
+  <link rel="apple-touch-icon" href="img/compass-180.png">
   <meta name="theme-color" content="#C21B27">
   <!-- The card WhatsApp and others show when the link is shared. The image URL
        must be absolute, so it names the live address: change it with the site's. -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="ADYPU Academic Systems">
-  <meta property="og:title" content="ADYPU Academic Systems">
+  <meta property="og:site_name" content="ADYPU Compass">
+  <meta property="og:title" content="ADYPU Compass">
   <meta property="og:description" content="Every academic tool at Ajeenkya D Y Patil University, in one place: attendance, the monthly report, timetables and research.">
   <meta property="og:url" content="https://adypu.pages.dev/">
   <meta property="og:image" content="https://adypu.pages.dev/img/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="ADYPU Academic Systems: every academic tool, one link">
+  <meta property="og:image:alt" content="ADYPU Compass: every academic tool, one link">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,7 +118,20 @@
     <div class="wrap header-inner">
       <span class="brand">
         <span class="brand-logo"><img src="img/logo.png" alt="Ajeenkya D Y Patil University"></span>
-        <span class="brand-name">ADYPU Academic Systems</span>
+        <span class="brand-mark">
+          <!-- The Compass mark. Drawn inline, not from the sprite, so the needle
+               can swing and settle once as the page opens. -->
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="34" r="19" fill="none" stroke="currentColor" stroke-width="4" />
+            <path d="M32 6.5 37 13.5H27Z" fill="#FBBF24" />
+            <g class="needle">
+              <path d="M32 17 37.5 34h-11Z" fill="currentColor" />
+              <path d="M32 51 26.5 34h11Z" fill="currentColor" fill-opacity=".45" />
+            </g>
+            <circle cx="32" cy="34" r="3" style="fill: var(--header-to)" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <span class="brand-name">ADYPU Compass</span>
+        </span>
       </span>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
         <svg class="theme-icon-moon" aria-hidden="true"><use href="#icon-moon" /></svg>
@@ -126,9 +141,100 @@
   </header>
 
   <section class="band">
-    <div class="wrap">
-      <h1>Every academic tool, one link</h1>
-      <p class="intro">See today's attendance, find a free room, log a publication or read the monthly report.</p>
+    <div class="wrap band-inner">
+      <div class="band-text">
+        <h1>Every academic tool, one link</h1>
+        <p class="intro">See today's attendance, find a free room, log a publication or read the monthly report.</p>
+      </div>
+      <!-- The hero compass. Its needle follows the pointer and swings to the
+           card being hovered, reading out the bearing (js/compass.js).
+           Decorative, so hidden from screen readers. -->
+      <div class="dial" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <circle class="dial-face" cx="100" cy="100" r="92" />
+          <g class="dial-ticks">
+            <line x1="107.3" y1="16.3" x2="107.7" y2="12.3" class="tick" />
+            <line x1="114.6" y1="17.3" x2="115.3" y2="13.3" class="tick" />
+            <line x1="121.7" y1="18.9" x2="122.8" y2="15.0" class="tick" />
+            <line x1="128.7" y1="21.1" x2="130.1" y2="17.3" class="tick" />
+            <line x1="135.5" y1="23.9" x2="137.2" y2="20.2" class="tick" />
+            <line x1="140.0" y1="30.7" x2="144.0" y2="23.8" class="tick-major" />
+            <line x1="148.2" y1="31.2" x2="150.5" y2="27.9" class="tick" />
+            <line x1="154.0" y1="35.7" x2="156.6" y2="32.6" class="tick" />
+            <line x1="159.4" y1="40.6" x2="162.2" y2="37.8" class="tick" />
+            <line x1="164.3" y1="46.0" x2="167.4" y2="43.4" class="tick" />
+            <line x1="168.8" y1="51.8" x2="172.1" y2="49.5" class="tick" />
+            <line x1="169.3" y1="60.0" x2="176.2" y2="56.0" class="tick-major" />
+            <line x1="176.1" y1="64.5" x2="179.8" y2="62.8" class="tick" />
+            <line x1="178.9" y1="71.3" x2="182.7" y2="69.9" class="tick" />
+            <line x1="181.1" y1="78.3" x2="185.0" y2="77.2" class="tick" />
+            <line x1="182.7" y1="85.4" x2="186.7" y2="84.7" class="tick" />
+            <line x1="183.7" y1="92.7" x2="187.7" y2="92.3" class="tick" />
+            <line x1="183.7" y1="107.3" x2="187.7" y2="107.7" class="tick" />
+            <line x1="182.7" y1="114.6" x2="186.7" y2="115.3" class="tick" />
+            <line x1="181.1" y1="121.7" x2="185.0" y2="122.8" class="tick" />
+            <line x1="178.9" y1="128.7" x2="182.7" y2="130.1" class="tick" />
+            <line x1="176.1" y1="135.5" x2="179.8" y2="137.2" class="tick" />
+            <line x1="169.3" y1="140.0" x2="176.2" y2="144.0" class="tick-major" />
+            <line x1="168.8" y1="148.2" x2="172.1" y2="150.5" class="tick" />
+            <line x1="164.3" y1="154.0" x2="167.4" y2="156.6" class="tick" />
+            <line x1="159.4" y1="159.4" x2="162.2" y2="162.2" class="tick" />
+            <line x1="154.0" y1="164.3" x2="156.6" y2="167.4" class="tick" />
+            <line x1="148.2" y1="168.8" x2="150.5" y2="172.1" class="tick" />
+            <line x1="140.0" y1="169.3" x2="144.0" y2="176.2" class="tick-major" />
+            <line x1="135.5" y1="176.1" x2="137.2" y2="179.8" class="tick" />
+            <line x1="128.7" y1="178.9" x2="130.1" y2="182.7" class="tick" />
+            <line x1="121.7" y1="181.1" x2="122.8" y2="185.0" class="tick" />
+            <line x1="114.6" y1="182.7" x2="115.3" y2="186.7" class="tick" />
+            <line x1="107.3" y1="183.7" x2="107.7" y2="187.7" class="tick" />
+            <line x1="92.7" y1="183.7" x2="92.3" y2="187.7" class="tick" />
+            <line x1="85.4" y1="182.7" x2="84.7" y2="186.7" class="tick" />
+            <line x1="78.3" y1="181.1" x2="77.2" y2="185.0" class="tick" />
+            <line x1="71.3" y1="178.9" x2="69.9" y2="182.7" class="tick" />
+            <line x1="64.5" y1="176.1" x2="62.8" y2="179.8" class="tick" />
+            <line x1="60.0" y1="169.3" x2="56.0" y2="176.2" class="tick-major" />
+            <line x1="51.8" y1="168.8" x2="49.5" y2="172.1" class="tick" />
+            <line x1="46.0" y1="164.3" x2="43.4" y2="167.4" class="tick" />
+            <line x1="40.6" y1="159.4" x2="37.8" y2="162.2" class="tick" />
+            <line x1="35.7" y1="154.0" x2="32.6" y2="156.6" class="tick" />
+            <line x1="31.2" y1="148.2" x2="27.9" y2="150.5" class="tick" />
+            <line x1="30.7" y1="140.0" x2="23.8" y2="144.0" class="tick-major" />
+            <line x1="23.9" y1="135.5" x2="20.2" y2="137.2" class="tick" />
+            <line x1="21.1" y1="128.7" x2="17.3" y2="130.1" class="tick" />
+            <line x1="18.9" y1="121.7" x2="15.0" y2="122.8" class="tick" />
+            <line x1="17.3" y1="114.6" x2="13.3" y2="115.3" class="tick" />
+            <line x1="16.3" y1="107.3" x2="12.3" y2="107.7" class="tick" />
+            <line x1="16.3" y1="92.7" x2="12.3" y2="92.3" class="tick" />
+            <line x1="17.3" y1="85.4" x2="13.3" y2="84.7" class="tick" />
+            <line x1="18.9" y1="78.3" x2="15.0" y2="77.2" class="tick" />
+            <line x1="21.1" y1="71.3" x2="17.3" y2="69.9" class="tick" />
+            <line x1="23.9" y1="64.5" x2="20.2" y2="62.8" class="tick" />
+            <line x1="30.7" y1="60.0" x2="23.8" y2="56.0" class="tick-major" />
+            <line x1="31.2" y1="51.8" x2="27.9" y2="49.5" class="tick" />
+            <line x1="35.7" y1="46.0" x2="32.6" y2="43.4" class="tick" />
+            <line x1="40.6" y1="40.6" x2="37.8" y2="37.8" class="tick" />
+            <line x1="46.0" y1="35.7" x2="43.4" y2="32.6" class="tick" />
+            <line x1="51.8" y1="31.2" x2="49.5" y2="27.9" class="tick" />
+            <line x1="60.0" y1="30.7" x2="56.0" y2="23.8" class="tick-major" />
+            <line x1="64.5" y1="23.9" x2="62.8" y2="20.2" class="tick" />
+            <line x1="71.3" y1="21.1" x2="69.9" y2="17.3" class="tick" />
+            <line x1="78.3" y1="18.9" x2="77.2" y2="15.0" class="tick" />
+            <line x1="85.4" y1="17.3" x2="84.7" y2="13.3" class="tick" />
+            <line x1="92.7" y1="16.3" x2="92.3" y2="12.3" class="tick" />
+          </g>
+          <path class="dial-north" d="M100 1 106 9H94Z" />
+          <text class="dial-letter is-north" x="100" y="31">N</text>
+          <text class="dial-letter" x="171" y="105">E</text>
+          <text class="dial-letter" x="100" y="179">S</text>
+          <text class="dial-letter" x="29" y="105">W</text>
+          <g class="dial-needle">
+            <path class="needle-n" d="M100 38 108 100H92Z" />
+            <path class="needle-s" d="M100 162 92 100h16Z" />
+          </g>
+          <circle class="dial-cap" cx="100" cy="100" r="6" />
+        </svg>
+        <div class="dial-readout"><span class="dial-bearing">040° NE</span><span class="dial-target">Pick a tool</span></div>
+      </div>
     </div>
   </section>
 
@@ -140,8 +246,7 @@
                read an invented figure as today's. Hidden from screen readers. -->
           <span class="pv pv-attendance" aria-hidden="true">
             <span class="pv-bar-top">
-              <span class="pv-presets"><span>Day</span><span class="is-on">Today</span><span>7 days</span></span>
-              <span class="pv-title push">Schools</span>
+              <span class="pv-title">Attendance by school</span>
             </span>
             <span class="pv-schools">
               <span class="pv-school">
@@ -159,20 +264,20 @@
                 <span class="pv-label">Law</span>
                 <span class="pv-track"><span class="pv-fill" style="width: 63%"></span></span>
               </span>
-              <span class="pv-school is-idle">
+              <span class="pv-school">
                 <svg><use href="#icon-design" /></svg>
                 <span class="pv-label">Design</span>
-                <span class="pv-note">Not reported</span>
+                <span class="pv-track"><span class="pv-fill" style="width: 66%"></span></span>
               </span>
               <span class="pv-school">
                 <svg><use href="#icon-science" /></svg>
                 <span class="pv-label">Science</span>
                 <span class="pv-track"><span class="pv-fill" style="width: 81%"></span></span>
               </span>
-              <span class="pv-school is-idle">
+              <span class="pv-school">
                 <svg><use href="#icon-hosp" /></svg>
                 <span class="pv-label">Hospitality</span>
-                <span class="pv-note">Not reported</span>
+                <span class="pv-track"><span class="pv-fill" style="width: 58%"></span></span>
               </span>
             </span>
           </span>
@@ -242,9 +347,10 @@
         <span class="card-body">
           <h2>Timetable Generator</h2>
           <p class="card-blurb">Clash-free timetables for Engineering.</p>
-          <span class="card-proof"><svg aria-hidden="true"><use href="#icon-seal" /></svg><span>Places <b>762 teaching hours</b> for <b>37 classes</b> and <b>61 faculty</b>.</span></span>
+          <span class="card-proof"><svg aria-hidden="true"><use href="#icon-seal" /></svg><span><b>0 clashes</b> against <b>14</b> in the official timetable, odd term 2026-27.</span></span>
           <span class="card-foot">
-            <span class="tag tag-login"><svg aria-hidden="true"><use href="#icon-lock" /></svg>Login required</span>
+            <span class="tag tag-open">Open to all</span>
+            <span class="card-note">Sign in to generate</span>
             <svg class="card-arrow" aria-hidden="true"><use href="#icon-arrow" /></svg>
             <span class="sr-only">(opens in a new tab)</span>
           </span>
@@ -305,7 +411,7 @@
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <span class="footer-brand">ADYPU Academic Systems</span>
+      <span class="footer-brand">ADYPU Compass</span>
       <span class="footer-links">
         <span>Built by <a href="https://github.com/D00M1909" target="_blank" rel="noopener noreferrer">Advait</a></span>
         <a class="footer-gh" href="https://github.com/D00M1909/adypu-hub" target="_blank" rel="noopener noreferrer">
@@ -317,5 +423,6 @@
     </div>
   </footer>
   <script src="js/theme.js"></script>
+  <script src="js/compass.js"></script>
 </body>
 </html>
