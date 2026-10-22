@@ -338,10 +338,6 @@ a { color: inherit; text-decoration: none; }
   .pv-month:nth-child(n+5) { display: none; }
 }
 .card-body { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 22px 26px 20px; }
-.soon-icon svg {
-  width: 26px; height: 26px; fill: none; stroke: currentColor;
-  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-}
 .card h2 { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 26px; font-weight: 700; }
 .card-blurb { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ink-body); }
 /* The one thing each tool can point to, said plainly as a sentence with its
@@ -373,24 +369,6 @@ a { color: inherit; text-decoration: none; }
   stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s;
 }
 .card:hover .card-arrow { transform: translateX(3px); }
-
-.soon {
-  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-  border: 2px dashed var(--dashed); border-radius: 14px; padding: 20px 28px;
-}
-.soon-icon {
-  width: 40px; height: 40px; flex: none; border-radius: 10px;
-  background: var(--surface-raised); color: var(--ink-soft);
-  display: flex; align-items: center; justify-content: center;
-}
-.soon-icon svg { width: 22px; height: 22px; }
-.soon-text { flex: 1 1 320px; }
-.soon-name { font-weight: 600; font-size: 17px; }
-.soon-blurb { font-size: 15px; color: var(--ink-soft); }
-.soon-label {
-  font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 600;
-  color: var(--ink-soft); letter-spacing: 0.04em; text-transform: uppercase;
-}
 
 /* The same footer as the academic dashboard's (.site-footer there). */
 .site-footer { border-top: 1px solid var(--hairline); font-size: 13px; color: var(--ink-soft); }
@@ -427,7 +405,6 @@ a { color: inherit; text-decoration: none; }
   .card-body { padding: 18px 20px; }
   .card h2 { font-size: 22px; }
   .card-blurb { font-size: 15px; }
-  .soon { padding: 16px 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
