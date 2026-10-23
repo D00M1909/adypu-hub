@@ -175,9 +175,10 @@
     '--cx-shadow:0 6px 18px -6px rgba(20,24,40,.35),0 1px 4px rgba(20,24,40,.12);--cx-shadow-hover:0 12px 26px -8px rgba(20,24,40,.4),0 2px 6px rgba(20,24,40,.14)}',
     '.adypu-cx-vars[data-skin="timetable"] .adypu-cx-text strong{font-weight:700;letter-spacing:0}',
     // Research: the pill of its Sign in button and "Compass" in the Playfair
-    // of its headings; in its dark mode, its deeper red, since white on its
-    // bright dark-mode red falls short of AA.
-    '.adypu-cx-vars[data-skin="research"]{--cx-label-font:"Playfair Display",Georgia,serif;--cx-m-radius:18px}',
+    // of its headings, with a light edge so it keeps its shape over the red
+    // panel of the sign-in page; in its dark mode, its deeper red, since
+    // white on its bright dark-mode red falls short of AA.
+    '.adypu-cx-vars[data-skin="research"]{--cx-label-font:"Playfair Display",Georgia,serif;--cx-m-radius:18px;--cx-line:rgba(255,255,255,.4)}',
     '.adypu-cx-vars[data-skin="research"] .adypu-cx-text strong{font-size:15px;letter-spacing:0}',
     ':root[data-theme="dark"] .adypu-cx-vars[data-skin="research"]{--cx-bg:#c22536;--cx-hub:#c22536;--cx-line:rgba(255,255,255,.12);',
     '--cx-m-bg:#131821;--cx-m-fg:#e8edf4;--cx-m-muted:#95a1b4;--cx-m-line:#242c39;--cx-m-hover:#181e28;--cx-m-brand:#e8404f;--cx-m-cta:#c22536}',
