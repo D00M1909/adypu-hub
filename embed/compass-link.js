@@ -400,6 +400,37 @@
     document.addEventListener('focusout', function () { box.classList.remove('adypu-cx-typing'); });
   }
 
+  // Some tools have a fixed sidebar down the left with something in its
+  // bottom corner, such as Research's signed-in account. The button would
+  // sit on top of it, so it moves across to the edge of the page content.
+  // An empty stretch of sidebar is fine to sit on (Timetable), so it only
+  // moves when the corner holds something smaller than the sidebar itself.
+  function clearSidebar() {
+    if (onRight) return;
+    box.style.left = '';
+    var rect = box.getBoundingClientRect();
+    var y = rect.top + rect.height / 2;
+    // Probed across the full-size button, since a folded one opens out.
+    var xs = [rect.left + 8, rect.left + 100, rect.left + 200];
+    box.style.visibility = 'hidden';
+    var bar = null;
+    xs.forEach(function (x) {
+      var hit = document.elementFromPoint(x, y);
+      var el = hit;
+      while (el && el !== document.body && el !== document.documentElement) {
+        var pos = getComputedStyle(el).position;
+        if (pos === 'fixed' || pos === 'sticky') break;
+        el = el.parentElement;
+      }
+      if (!el || el === document.body || el === document.documentElement || hit === el) return;
+      var r = el.getBoundingClientRect();
+      var isSidebar = r.left <= 2 && r.height >= window.innerHeight * 0.6 && r.width <= window.innerWidth * 0.45;
+      if (isSidebar && hit.getBoundingClientRect().height < r.height * 0.5) bar = r;
+    });
+    box.style.visibility = '';
+    if (bar) box.style.left = 'calc(' + Math.round(bar.right) + 'px + var(--cx-gap))';
+  }
+
   function mount() {
     var style = document.createElement('style');
     style.id = 'adypu-cx-style';
@@ -458,6 +489,15 @@
     refreshCompact();
     watchScroll();
     watchTyping();
+    clearSidebar();
+    // Again once fonts and late layout have settled, and when the window
+    // changes size (a sidebar often hides on narrow screens).
+    setTimeout(clearSidebar, 800);
+    var resizing = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizing);
+      resizing = setTimeout(clearSidebar, 150);
+    });
     // Rises into place once the page has drawn, rather than popping in.
     requestAnimationFrame(function () {
       requestAnimationFrame(function () { box.classList.remove('adypu-cx-arriving'); });
