@@ -62,7 +62,7 @@ Every ADYPU site can load one script to get a "Back to ADYPU Compass" button and
 - Scrolling down folds the label away; scrolling up brings it back. On a phone it steps aside while you type.
 - Coming back, Compass points its needle at the tool you came from and marks its card for a moment.
 - The script reads and sends nothing. The only thing it keeps is the "keep it small" choice, in your browser.
-- Change the wording, the links or a look once in `embed/compass-link.js` and every site picks it up within the hour.
+- Change the wording, the links or a look once in `embed/compass-link.js` and every site picks it up within five minutes.
 
 Options, as attributes on the tag:
 
