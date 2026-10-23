@@ -1,0 +1,8 @@
+# Cloudflare Pages response headers.
+#
+# The Compass button script loads on every page of every ADYPU site. An hour
+# in the browser cache, then served from cache while a fresh copy is fetched,
+# means a site pays for it about once a day; a change to it reaches everyone
+# within the hour.
+/embed/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400

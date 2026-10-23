@@ -57,9 +57,23 @@ Every ADYPU site can load one script to get a "Back to ADYPU Compass" button and
 ```
 
 - The button sits in the bottom-left corner and shrinks to the compass and one word on a phone.
-- Add `data-link="off"` to the tag to leave the button out and keep only the note.
-- The script only adds two elements to the page. It reads and sends nothing.
-- Change the wording or the link once in `embed/compass-link.js` and every site picks it up.
+- It takes each tool's own look: its colours, corners and type. The look is picked from the site's address, and follows the site's dark mode where it has one.
+- The arrow beside it opens a menu of the other tools, so you can go straight from one to another. The menu can also keep the button small, as just the compass.
+- Scrolling down folds the label away; scrolling up brings it back. On a phone it steps aside while you type.
+- Coming back, Compass points its needle at the tool you came from and marks its card for a moment.
+- The script reads and sends nothing. The only thing it keeps is the "keep it small" choice, in your browser.
+- Change the wording, the links or a look once in `embed/compass-link.js` and every site picks it up within the hour.
+
+Options, as attributes on the tag:
+
+| Attribute | What it does |
+| --- | --- |
+| `data-link="off"` | Leaves the button out and keeps only the note |
+| `data-skin="daybook"` | Picks the look by hand: `compass`, `daybook`, `report`, `timetable` or `research` |
+| `data-position="right"` | Moves the button to the bottom-right corner |
+| `data-guard="forms"` | Asks before leaving when a form on the page has been edited and not submitted |
+
+A site with its own idea of unsaved work can tell the button with `ADYPUCompass.setUnsaved(true)`, and `false` once it is saved. Add `data-cx-ignore` to a form, such as a filter, that should never count.
 
 ## Project layout
 
@@ -70,6 +84,7 @@ Every ADYPU site can load one script to get a "Back to ADYPU Compass" button and
 | `js/compass.js` | The hero compass and its needle |
 | `js/theme.js` | The light and dark toggle |
 | `embed/compass-link.js` | The script other sites include |
+| `_headers` | Cache rules Cloudflare Pages applies to that script |
 | `img/` | The Compass mark, logo and share image |
 | `docs/screenshots/` | Screenshots used above |
 

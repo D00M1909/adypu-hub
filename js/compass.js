@@ -92,9 +92,13 @@
     }
   });
 
+  // While the needle is welcoming you back (below), a stray pointer move
+  // does not pull it away.
+  var welcomeUntil = 0;
+
   if (finePointer && !still) {
     document.addEventListener('mousemove', function (e) {
-      if (!hovered) aim(headingTo(e.clientX, e.clientY), IDLE_LABEL);
+      if (!hovered && Date.now() > welcomeUntil) aim(headingTo(e.clientX, e.clientY), IDLE_LABEL);
     });
     document.documentElement.addEventListener('mouseleave', function () {
       hovered = null;
@@ -109,4 +113,40 @@
   if (still) angle = REST;
   draw();
   if (!still) aim(REST, IDLE_LABEL);
+
+  // Back from a tool: the Compass button on each tool links here with
+  // ?from=<tool> (embed/compass-link.js), so the needle swings to that tool's
+  // card, reads "Back from" it, and the card lights up for a moment. The
+  // query is dropped from the address so a reload or a shared link is clean.
+  var match = /[?&]from=([a-z]+)/.exec(location.search);
+  if (!match) return;
+  if (window.history && history.replaceState) history.replaceState(null, '', location.pathname + location.hash);
+  var from = document.querySelector('.card[data-tool="' + match[1] + '"]');
+  if (!from) return;
+
+  var badge = document.createElement('span');
+  badge.className = 'card-from';
+  badge.setAttribute('aria-hidden', 'true');
+  badge.textContent = 'Where you were';
+  from.querySelector('.card-art').appendChild(badge);
+  from.classList.add('is-from');
+
+  // On a phone the card can be below the fold: bring it up first.
+  var box = from.getBoundingClientRect();
+  var offscreen = box.top > window.innerHeight - 80;
+  if (offscreen) from.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
+
+  welcomeUntil = Date.now() + 2800;
+  setTimeout(function () {
+    aim(headingToCard(from), 'Back from ' + from.querySelector('h2').textContent);
+  }, offscreen ? 450 : 0);
+  setTimeout(function () {
+    if (!hovered) aim(REST, IDLE_LABEL);
+  }, 2800);
+  setTimeout(function () {
+    from.classList.remove('is-from');
+    badge.addEventListener('transitionend', function () { badge.remove(); });
+    badge.classList.add('is-gone');
+    if (still) badge.remove();
+  }, 4500);
 })();

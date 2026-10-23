@@ -208,10 +208,29 @@ a { color: inherit; text-decoration: none; }
 }
 .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--red-ink); }
 .card:focus-visible { outline: 3px solid var(--red-ink); outline-offset: 3px; }
+/* Back from a tool (js/compass.js): the card you came from pulses twice and
+   carries a small label for a few seconds. */
+.card.is-from { border-color: var(--red-ink); animation: card-welcome 1.3s ease-out 0.2s 2 backwards; }
+@keyframes card-welcome {
+  from { box-shadow: var(--shadow-md), 0 0 0 0 var(--red-tint-strong); }
+  to { box-shadow: var(--shadow-md), 0 0 0 14px transparent; }
+}
+.card-from {
+  position: absolute; top: 12px; left: 12px; z-index: 1;
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--red-ink); color: var(--surface-raised);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+  box-shadow: var(--shadow-sm);
+  animation: card-from-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s backwards;
+  transition: opacity 0.4s, transform 0.4s;
+}
+.card-from.is-gone { opacity: 0; transform: translateY(-4px); }
+@keyframes card-from-in { from { opacity: 0; transform: translateY(-6px); } }
 /* The top of each card: a small drawing of the tool (includes/previews.php),
    a window rising from the bottom edge of a dotted panel. A fixed ratio keeps
    every card the same size. The dots are a texture, not a colour. */
 .card-art {
+  position: relative;
   display: flex; align-items: flex-end; justify-content: center;
   aspect-ratio: 16 / 7.5; padding: 22px 28px 0; overflow: hidden;
   container-type: inline-size;
@@ -413,4 +432,5 @@ a { color: inherit; text-decoration: none; }
   .card, .card-arrow, .pv { transition: none; }
   .card:hover .pv { transform: none; }
   .card:hover { transform: none; }
+  .card.is-from, .card-from { animation: none; transition: none; }
 }
