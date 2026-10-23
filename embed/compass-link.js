@@ -102,10 +102,11 @@
     '.adypu-cx-more svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}',
     '.adypu-cx-open .adypu-cx-more svg{transform:rotate(180deg)}',
     // It opens out again under a mouse (adypu-cx-peek, set from script so a
-    // tap never counts), for keyboard focus, and while the menu is open.
-    '.adypu-cx-compact:not(.adypu-cx-peek):not(.adypu-cx-open):not(:has(:focus-visible)) .adypu-cx-text{max-width:0;opacity:0}',
-    '.adypu-cx-compact:not(.adypu-cx-peek):not(.adypu-cx-open):not(:has(:focus-visible)) .adypu-cx-more{width:0;opacity:0}',
-    '.adypu-cx-compact:not(.adypu-cx-peek):not(.adypu-cx-open):not(:has(:focus-visible)) .adypu-cx-link{gap:0;padding-right:7px}',
+    // tap never counts), after a first tap on a touch screen (adypu-cx-tapped),
+    // for keyboard focus, and while the menu is open.
+    '.adypu-cx-compact:not(.adypu-cx-peek):not(.adypu-cx-tapped):not(.adypu-cx-open):not(:has(:focus-visible)) .adypu-cx-text{max-width:0;opacity:0}',
+    '.adypu-cx-compact:not(.adypu-cx-peek):not(.adypu-cx-tapped):not(.adypu-cx-open):not(:has(:focus-visible)) .adypu-cx-more{width:0;opacity:0}',
+    '.adypu-cx-compact:not(.adypu-cx-peek):not(.adypu-cx-tapped):not(.adypu-cx-open):not(:has(:focus-visible)) .adypu-cx-link{gap:0;padding-right:7px}',
     // The needle turns once on hover: the same compass that greets you on
     // the Compass page, pointing you back to it.
     '.adypu-cx-needle{transform-box:view-box;transform-origin:32px 34px;transform:rotate(40deg);transition:transform .9s cubic-bezier(.34,1.56,.64,1)}',
@@ -462,6 +463,27 @@
     link.setAttribute('aria-label', 'Back to ADYPU Compass, every academic tool in one place');
     link.innerHTML = MARK +
       '<span class="adypu-cx-text"><small>Back to</small><strong><span class="adypu-cx-long">ADYPU </span>Compass</strong></span>';
+    // Folded on a touch screen there is no hover to open it out, and the
+    // arrow to the menu (with "Keep this button small") is hidden: the first
+    // tap opens it out, the next one goes to Compass. It folds again after a
+    // few seconds, or on a tap elsewhere.
+    var lastPointer = 'mouse', unfold = null;
+    link.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType; });
+    link.addEventListener('click', function (e) {
+      var folded = box.classList.contains('adypu-cx-compact') && !box.classList.contains('adypu-cx-tapped') &&
+        !box.classList.contains('adypu-cx-open');
+      if (!folded || lastPointer === 'mouse') return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      box.classList.add('adypu-cx-tapped');
+      clearTimeout(unfold);
+      unfold = setTimeout(function () {
+        if (!box.classList.contains('adypu-cx-open')) box.classList.remove('adypu-cx-tapped');
+      }, 5000);
+    });
+    document.addEventListener('pointerdown', function (e) {
+      if (!box.contains(e.target)) box.classList.remove('adypu-cx-tapped');
+    });
     guarded(link);
 
     var more = document.createElement('button');
