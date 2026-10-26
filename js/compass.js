@@ -126,11 +126,6 @@
     return Math.atan2(x - o.x, -(y - o.y)) * 180 / Math.PI;
   }
 
-  function headingToCard(card) {
-    var box = card.getBoundingClientRect();
-    return headingTo(box.left + box.width / 2, box.top + box.height / 2);
-  }
-
   // Each tool has a bearing of its own (data-bearing on its card): north,
   // east, south and west, where its plaque sits on the 3D compass, so a phone
   // can point at it without a pointer. North is 0, so test for a number
@@ -148,8 +143,7 @@
 
   function pointAt(el) {
     hovered = el;
-    var heading = (el.classList.contains('card') && finePointer) ? headingToCard(el) : bearingOf(el);
-    aim(heading, nameOf(el));
+    aim(bearingOf(el), nameOf(el));
   }
   function letGo(el) {
     if (hovered === el) hovered = null;
@@ -200,10 +194,7 @@
     requestAnimationFrame(function () {
       ticking = false;
       if (Date.now() < welcomeUntil) return;
-      if (finePointer) {
-        if (hovered && hovered.classList && hovered.classList.contains('card') && !still) aim(headingToCard(hovered), label);
-        return;
-      }
+      if (finePointer) return;
       if (still) return;
       var vh = window.innerHeight;
       if (hero.getBoundingClientRect().bottom > vh * 0.4) {
@@ -270,8 +261,7 @@
 
   welcomeUntil = Date.now() + 2800;
   setTimeout(function () {
-    var heading = finePointer ? headingToCard(from) : bearingOf(from);
-    aim(heading, 'Back from ' + from.querySelector('h2').textContent);
+    aim(bearingOf(from), 'Back from ' + from.querySelector('h2').textContent);
   }, offscreen ? 450 : 0);
   setTimeout(function () {
     if (!hovered) aim(REST, IDLE_LABEL);
