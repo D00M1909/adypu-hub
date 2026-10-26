@@ -1,4 +1,4 @@
-// How the page moves: the shortcut chips, the headline and the intro, cards
+// How the page moves: the finder chip, the headline and the intro, cards
 // that rise into place as you scroll, the light on a card that follows the
 // pointer, and the red iris that opens when you leave for a tool.
 //
@@ -13,21 +13,9 @@
   var dial = window.ADYPUDial;
   var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 
-  // ---- Chips: one shortcut per card, built from the cards themselves, so
-  // adding a tool is still one block of HTML. ----
+  // ---- The one chip under the headline opens the tool finder. ----
   var chips = document.getElementById('chips');
   if (chips) {
-    cards.forEach(function (card) {
-      var a = document.createElement('a');
-      a.className = 'chip';
-      a.href = card.getAttribute('href');
-      a.setAttribute('data-aim', card.getAttribute('data-bearing'));
-      a.setAttribute('data-name', card.querySelector('h2').textContent);
-      var bearing = dial ? dial.format(parseFloat(card.getAttribute('data-bearing'))).split(' ')[0] : '';
-      a.innerHTML = '<svg aria-hidden="true"><use href="#icon-' + card.getAttribute('data-icon') + '"/></svg>' +
-        '<span>' + card.getAttribute('data-short') + '</span><span class="chip-deg" aria-hidden="true">' + bearing + '</span>';
-      chips.appendChild(a);
-    });
     var find = document.createElement('button');
     find.type = 'button';
     find.className = 'chip chip-find';
@@ -85,7 +73,7 @@
   window.ADYPUHub = { leave: leave };
 
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a.card, a.chip, a.plaque');
+    var a = e.target.closest && e.target.closest('a.card, a.plaque');
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === '_blank') return;
     e.preventDefault();
     var x = e.clientX, y = e.clientY;

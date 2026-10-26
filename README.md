@@ -26,7 +26,7 @@ Live site: <https://adypu.pages.dev/>
 - A "Scroll" hint under the hero leads down to the cards, and goes once you start scrolling.
 - Once the hero scrolls away, a small bearing pill follows you down the page. Tap it to find a tool.
 - `Ctrl K` (or `/`) opens a finder over every tool. The needle points at the highlighted row.
-- The headline, chips and cards animate in (GSAP). The drawing on each card builds itself as it comes into view, and a light follows the pointer across a card.
+- The headline, the finder button and the cards animate in (GSAP). The drawing on each card builds itself as it comes into view, and a light follows the pointer across a card.
 - Choosing a tool opens a red iris from where you tapped. Switching theme spreads the new one out from the toggle.
 - Light and dark themes, remembered between visits.
 - Nothing moves for people who ask for reduced motion.
@@ -43,11 +43,11 @@ Live site: <https://adypu.pages.dev/>
 
 1. Copy one `<a class="card">` block in `index.html`.
 2. Change its name, line, tag, preview and link.
-3. Set its `data-bearing` (a heading from 0 to 359 that no other tool uses), `data-short` (the word on its hero chip and its plaque) and `data-icon` (an `icon-` symbol in the page's sprite).
+3. Set its `data-bearing` (a heading from 0 to 359 that no other tool uses), `data-short` (the word on its plaque) and `data-icon` (an `icon-` symbol in the page's sprite).
 
 The bearing is where the tool's plaque sits on the 3D compass. North, east, south and west are taken, so a fifth tool goes on a diagonal: 45, 135, 225 or 315.
 
-The hero chips, the plaques, the finder and the card badges are built from the cards, so there is nothing else to change.
+The plaques, the finder and the card badges are built from the cards, so there is nothing else to change.
 
 ## Run it locally
 
@@ -95,7 +95,7 @@ A site with its own idea of unsaved work can tell the button with `ADYPUCompass.
 | `css/stage.css` | The hero, the bearing pill, the finder and the card effects |
 | `js/compass.js` | The needle: one heading drives every compass on the page |
 | `js/hero3d.js` | The 3D compass and its plaques, loaded at once where WebGL will cope |
-| `js/motion.js` | Chips, headline and scroll animation, card effects, the iris |
+| `js/motion.js` | Headline and scroll animation, card effects, the iris |
 | `js/palette.js` | The `Ctrl K` finder |
 | `js/theme.js` | The light and dark toggle |
 | `embed/compass-link.js` | The script other sites include |

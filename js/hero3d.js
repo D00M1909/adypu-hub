@@ -12,7 +12,7 @@
 // instead and nothing here runs.
 //
 // The needle takes its heading from window.ADYPUDial (js/compass.js), so it
-// swings to a card or a chip just like the flat one. The cards, chips and
+// swings to a card just like the flat one. The cards and
 // finder stay the real links: the plaques only add to them, and the names
 // under the plaques are links too, so the keyboard can reach them.
 import * as THREE from 'three';
@@ -401,10 +401,9 @@ export function mount() {
 
   // ---- Which plaque is lifted ------------------------------------------------
   // The one under the pointer on the canvas, or else the one the needle has
-  // been sent to by bearing: by its name below it (hover or focus), its chip
-  // in the hero, its row in the finder, or, on a phone, its card scrolling
-  // past. A card under a mouse sends the needle to the card itself instead,
-  // so no plaque lifts for that.
+  // been sent to by bearing: by its name below it (hover or focus), its card
+  // under the pointer, its row in the finder, or, on a phone, its card
+  // scrolling past.
   var rayIdx = -1, aimIdx = -1, active = -1;
 
   function aimed() {

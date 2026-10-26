@@ -57,7 +57,9 @@
 
   function step() {
     var goal = target;
-    var swaying = target === REST && !still;
+    // Only when nothing is chosen: Attendance also sits at 0, and a chosen
+    // tool's bearing must hold still.
+    var swaying = target === REST && label === IDLE_LABEL && !hovered && !still;
     if (swaying) goal += Math.sin(performance.now() / 1700) * 5;
     velocity += delta(angle, goal) * 0.07;
     velocity *= 0.8;
@@ -150,7 +152,7 @@
     aim(REST, IDLE_LABEL);
   }
 
-  // Cards, the shortcut chips and the finder's rows all take part through one
+  // Cards, the plaques and the finder's rows all take part through one
   // pair of listeners, so a tool added later needs no wiring.
   ['mouseover', 'focusin'].forEach(function (type) {
     document.addEventListener(type, function (e) {

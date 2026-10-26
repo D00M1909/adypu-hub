@@ -50,7 +50,6 @@
   transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s, box-shadow 0.2s;
 }
 .chip svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--red-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.chip-deg { font: 500 11px/1 "IBM Plex Mono", monospace; color: var(--ink-muted); letter-spacing: 0.02em; }
 .chip:hover { transform: translateY(-2px); border-color: var(--red-ink); box-shadow: var(--shadow-md); }
 .chip:focus-visible { outline: 3px solid var(--red-ink); outline-offset: 3px; }
 .chip-find { border-style: dashed; background: transparent; box-shadow: none; color: var(--ink-soft); }
@@ -310,7 +309,6 @@ html { scroll-behavior: smooth; }
   .eyebrow { font-size: 11px; margin-bottom: 14px; }
   .chips { gap: 8px; margin-top: 22px; }
   .chip { padding: 10px 14px 10px 10px; font-size: 13.5px; }
-  .chip-deg { display: none; }
   .cards-area { padding-bottom: 96px; }
   /* Room at the sides for the names under the east and west plaques. */
   .hero-visual { width: min(78vw, 340px); }
@@ -328,11 +326,4 @@ html { scroll-behavior: smooth; }
   .iris svg { opacity: 1; }
   .card, .card:hover { transform: none !important; }
   .progress { display: none !important; }
-}
-
-/* With the compass doing the job on a wide screen, the shortcut chips above it
-   would only repeat its plaques: they stay for phones, and for anyone whose
-   browser does not draw the 3D compass. */
-@media (min-width: 861px) and (hover: hover) {
-  .three-wait .chip:not(.chip-find), .three-on .chip:not(.chip-find) { display: none; }
 }
