@@ -25,6 +25,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
   <link rel="stylesheet" href="css/hub.css">
+  <link rel="stylesheet" href="css/stage.css">
+  <!-- The 3D compass (js/hero3d.js) loads three.js from a CDN, pinned to one
+       version. If it cannot load, the flat dial in the hero is shown instead. -->
+  <script type="importmap">
+  { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
   <script>
   // Inline and before the body so the page never flashes the wrong theme.
   try {
@@ -33,6 +42,65 @@
   } catch (e) {
     document.documentElement.dataset.theme = 'light';
   }
+  // The intro animation starts from a hidden hero. If the animation library has
+  // not arrived after a few seconds, show the page as it is.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('motion');
+    setTimeout(function () { document.documentElement.classList.remove('motion'); }, 3500);
+  }
+  // The 3D compass is decided here, before the page is read, so its files
+  // start downloading at once and only one compass ever shows. While it loads
+  // the compass's place stays empty (three-wait); once it has drawn, it fades
+  // in (three-on, set by js/hero3d.js). Where WebGL is missing or would run
+  // badly, or the 3D one has not drawn within a few seconds, the flat dial
+  // shows instead (three-off) and the 3D one is not started.
+  (function () {
+    var root = document.documentElement;
+    var mq = window.matchMedia;
+    function wantsThree() {
+      var c = navigator.connection;
+      if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return false;
+      if (navigator.deviceMemory && navigator.deviceMemory < 2) return false;
+      var fine = mq('(hover: hover) and (pointer: fine)').matches;
+      if (!fine && (navigator.hardwareConcurrency || 4) < 4) return false;
+      try {
+        // A software renderer reports a "major performance caveat": no 3D there.
+        var t = document.createElement('canvas'), o = { failIfMajorPerformanceCaveat: true };
+        var gl = t.getContext('webgl2', o) || t.getContext('webgl', o);
+        if (!gl) return false;
+        var lose = gl.getExtension('WEBGL_lose_context');
+        if (lose) lose.loseContext();
+        return true;
+      } catch (e) { return false; }
+    }
+    if (!wantsThree()) { root.classList.add('three-off'); return; }
+    root.classList.add('three-wait');
+    ['https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js',
+     'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js',
+     'js/hero3d.js'].forEach(function (href) {
+      var l = document.createElement('link');
+      l.rel = 'modulepreload';
+      l.href = href;
+      document.head.appendChild(l);
+    });
+    // The deadline only counts while the page is on screen: a tab opened in
+    // the background gets a fresh few seconds once it is looked at.
+    function deadline(ms) {
+      setTimeout(function () {
+        if (root.classList.contains('three-on')) return;
+        if (document.hidden) {
+          document.addEventListener('visibilitychange', function again() {
+            document.removeEventListener('visibilitychange', again);
+            deadline(3000);
+          });
+          return;
+        }
+        root.classList.remove('three-wait');
+        root.classList.add('three-off');
+      }, ms);
+    }
+    deadline(6000);
+  })();
   </script>
 </head>
 <body>
@@ -136,17 +204,38 @@
     </div>
   </header>
 
-  <section class="band">
-    <div class="wrap band-inner">
-      <div class="band-text">
-        <h1>Every academic tool, one link</h1>
+  <div class="progress" aria-hidden="true"></div>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="hero-glow"></span>
+      <span class="hero-grid"></span>
+      <svg class="hero-rings" viewBox="-400 -400 800 800"><circle r="130" /><circle r="205" /><circle r="290" /></svg>
+      <!-- The turning parts are their own layer, so the browser spins them on the
+           graphics card instead of repainting the rings every frame. -->
+      <svg class="hero-rings hero-orbit" viewBox="-400 -400 800 800">
+        <circle class="dash" r="372" /><circle class="dot" cx="290" cy="0" r="6" /><circle class="dot-amber" cx="-205" cy="0" r="4" />
+      </svg>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow"><span class="eyebrow-dot"></span>Ajeenkya D Y Patil University</p>
+        <h1>Every academic tool, <em>one link</em></h1>
         <p class="intro">See today's attendance, find a free room, log a publication or read the monthly report.</p>
+        <!-- One shortcut per card, added by js/motion.js. -->
+        <div class="chips" id="chips"></div>
       </div>
-      <!-- The hero compass. Its needle follows the pointer and swings to the
-           card being hovered, reading out the bearing (js/compass.js).
-           Decorative, so hidden from screen readers. -->
-      <div class="dial" aria-hidden="true">
-        <svg viewBox="0 0 200 200">
+      <!-- The hero compass. Its needle follows the pointer (or the scroll, on a
+           phone) and swings to the card being hovered, reading out the bearing
+           (js/compass.js). Where the browser can, a 3D one is drawn into the
+           canvas instead (js/hero3d.js), with a plaque for each tool at its
+           bearing on the bezel; it adds a link per tool, so the plaques can be
+           reached from the keyboard too. The flat dial below is only for where
+           3D cannot run. The drawings are hidden from screen readers. -->
+      <div class="hero-visual">
+        <div class="hero-compass" id="hero-compass">
+          <canvas class="hero-canvas" aria-hidden="true"></canvas>
+        <svg class="dial-svg" viewBox="0 0 200 200" aria-hidden="true">
           <circle class="dial-face" cx="100" cy="100" r="92" />
           <g class="dial-ticks">
             <line x1="107.3" y1="16.3" x2="107.7" y2="12.3" class="tick" />
@@ -223,20 +312,27 @@
           <text class="dial-letter" x="171" y="105">E</text>
           <text class="dial-letter" x="100" y="179">S</text>
           <text class="dial-letter" x="29" y="105">W</text>
-          <g class="dial-needle">
+          <g class="dial-needle" data-needle>
             <path class="needle-n" d="M100 38 108 100H92Z" />
             <path class="needle-s" d="M100 162 92 100h16Z" />
           </g>
           <circle class="dial-cap" cx="100" cy="100" r="6" />
         </svg>
-        <div class="dial-readout"><span class="dial-bearing">040° NE</span><span class="dial-target">Pick a tool</span></div>
+        </div>
+        <div class="dial-readout" aria-hidden="true"><span class="dial-bearing" data-bearing-out>040° NE</span><span class="dial-target" data-target-out>Pick a tool</span></div>
       </div>
     </div>
+    <!-- Says that there is more below, and takes you there. -->
+    <a class="scroll-cue" href="#tools">
+      <span class="scroll-cue-label">Scroll<span class="sr-only"> to the tools</span></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6" /></svg>
+    </a>
   </section>
 
-  <main class="wrap cards-area">
+  <main class="wrap cards-area" id="tools">
+    <h2 class="section-label">Choose a bearing</h2>
     <div class="cards">
-      <a class="card" data-tool="daybook" href="https://adypu-daybook.fast-page.org/">
+      <a class="card" data-tool="daybook" data-bearing="0" data-short="Attendance" data-icon="attendance" href="https://adypu-daybook.fast-page.org/">
         <span class="card-art">
           <!-- Shapes and labels only, never numbers: a glance at the hub must not
                read an invented figure as today's. Hidden from screen readers. -->
@@ -288,7 +384,7 @@
           </span>
         </span>
       </a>
-      <a class="card" data-tool="report" href="https://adypuacademic.github.io/adypuacademicreport/">
+      <a class="card" data-tool="report" data-bearing="90" data-short="Report" data-icon="report" href="https://adypuacademic.github.io/adypuacademicreport/">
         <span class="card-art">
           <span class="pv pv-report" aria-hidden="true">
             <span class="pv-banner">
@@ -318,7 +414,7 @@
           </span>
         </span>
       </a>
-      <a class="card" data-tool="timetable" href="https://adypu-timetable.22web.org/index.php">
+      <a class="card" data-tool="timetable" data-bearing="180" data-short="Timetables" data-icon="timetable" href="https://adypu-timetable.22web.org/index.php">
         <span class="card-art">
           <span class="pv pv-timetable" aria-hidden="true">
             <span class="pv-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></span>
@@ -349,7 +445,7 @@
           </span>
         </span>
       </a>
-      <a class="card" data-tool="research" href="https://adypu-research.fast-page.org/">
+      <a class="card" data-tool="research" data-bearing="270" data-short="Research" data-icon="research" href="https://adypu-research.fast-page.org/">
         <span class="card-art">
           <span class="pv pv-research" aria-hidden="true">
             <span class="pv-bar-top"><span class="pv-title">All publications</span><span class="pv-export push">Export</span></span>
@@ -392,6 +488,18 @@
     </div>
   </main>
 
+  <!-- Once the hero has scrolled away, the compass follows you down the page. -->
+  <button class="hud" id="hud" type="button" aria-label="Find a tool">
+    <svg class="hud-dial" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="92" class="dial-face" />
+      <path class="dial-north" d="M100 1 106 9H94Z" />
+      <g data-needle><path class="needle-n" d="M100 30 112 100H88Z" /><path class="needle-s" d="M100 170 88 100h24Z" /></g>
+      <circle class="dial-cap" cx="100" cy="100" r="9" />
+    </svg>
+    <span class="hud-text" aria-hidden="true"><span class="hud-bearing" data-bearing-out>040° NE</span><span class="hud-target" data-target-out>Pick a tool</span></span>
+    <svg class="hud-find" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+  </button>
+
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <span class="footer-brand">ADYPU Compass</span>
@@ -405,8 +513,12 @@
       </span>
     </div>
   </footer>
-  <script src="js/theme.js"></script>
-  <script src="js/compass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/compass.js" defer></script>
+  <script src="js/motion.js" defer></script>
+  <script src="js/palette.js" defer></script>
   <script src="js/usage.js" data-src="https://script.google.com/macros/s/AKfycbzzzr0KS5tqyvnlJTy5cDgwL_txbzegw8O67yEVL1IAFIN2LEjh5ah7ZiwDYqkASAHG/exec"></script>
   <script src="embed/compass-link.js" data-link="off" defer></script>
 </body>

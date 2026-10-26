@@ -19,11 +19,17 @@ Live site: <https://adypu.pages.dev/>
 
 ## What the page does
 
-- A compass in the header whose needle settles when the page loads.
-- A hero compass whose needle follows the pointer on a spring, points at the card under it, and reads out the bearing and the tool's name.
-- Each card has a small CSS preview of its tool and a one-line proof point with real figures.
+- A 3D compass in the hero (three.js), and it is also the way in. Each tool has a lacquer and gold plaque on the bezel, at its own bearing: Attendance at north, Report at east, Timetables at south and Research at west. Pointing at a plaque, or tabbing to its name, lifts it and swings the needle to it. Clicking or tapping one opens the tool.
+- The needle follows the pointer on a spring, points at the card under it, and reads out the bearing and the tool's name. The case leans a little towards the pointer and tips away as you scroll.
+- three.js starts loading as soon as the page does, and the 3D compass fades in where the flat one would be, so only one is ever shown. A flat SVG dial stands in only where WebGL is missing, the device looks slow, or the 3D one fails to load within a few seconds.
+- On a phone there is no pointer, so scrolling turns the needle: it swings with the page, then points at whichever tool is mid-screen. A tap on a plaque opens its tool.
+- A "Scroll" hint under the hero leads down to the cards, and goes once you start scrolling.
+- Once the hero scrolls away, a small bearing pill follows you down the page. Tap it to find a tool.
+- `Ctrl K` (or `/`) opens a finder over every tool. The needle points at the highlighted row.
+- The headline, chips and cards animate in (GSAP). The drawing on each card builds itself as it comes into view, and a light follows the pointer across a card.
+- Choosing a tool opens a red iris from where you tapped. Switching theme spreads the new one out from the toggle.
 - Light and dark themes, remembered between visits.
-- Works on a phone; the cards stack in one column.
+- Nothing moves for people who ask for reduced motion.
 
 #### Compass, desktop, dark
 
@@ -37,10 +43,15 @@ Live site: <https://adypu.pages.dev/>
 
 1. Copy one `<a class="card">` block in `index.html`.
 2. Change its name, line, tag, preview and link.
+3. Set its `data-bearing` (a heading from 0 to 359 that no other tool uses), `data-short` (the word on its hero chip and its plaque) and `data-icon` (an `icon-` symbol in the page's sprite).
+
+The bearing is where the tool's plaque sits on the 3D compass. North, east, south and west are taken, so a fifth tool goes on a diagonal: 45, 135, 225 or 315.
+
+The hero chips, the plaques, the finder and the card badges are built from the cards, so there is nothing else to change.
 
 ## Run it locally
 
-Plain HTML, CSS and a few lines of JS. No build step. Serve the folder with any static server:
+Plain HTML, CSS and JS; three.js and GSAP load from a CDN. No build step. Serve the folder with any static server:
 
 ```bash
 php -S localhost:8100
@@ -81,7 +92,11 @@ A site with its own idea of unsaved work can tell the button with `ADYPUCompass.
 | --- | --- |
 | `index.html` | The page and its cards |
 | `css/` | Styles, light and dark |
-| `js/compass.js` | The hero compass and its needle |
+| `css/stage.css` | The hero, the bearing pill, the finder and the card effects |
+| `js/compass.js` | The needle: one heading drives every compass on the page |
+| `js/hero3d.js` | The 3D compass and its plaques, loaded at once where WebGL will cope |
+| `js/motion.js` | Chips, headline and scroll animation, card effects, the iris |
+| `js/palette.js` | The `Ctrl K` finder |
 | `js/theme.js` | The light and dark toggle |
 | `embed/compass-link.js` | The script other sites include |
 | `_headers` | Cache rules Cloudflare Pages applies to that script |
