@@ -26,7 +26,7 @@ Live site: <https://adypu.pages.dev/>
 - A "Scroll" hint under the hero leads down to the cards, and goes once you start scrolling.
 - Once the hero scrolls away, a small bearing pill follows you down the page. Tap it to find a tool.
 - `Ctrl K` (or `/`) opens a finder over every tool. The needle points at the highlighted row.
-- The headline, the finder button and the cards animate in (GSAP). The drawing on each card builds itself as it comes into view, and a light follows the pointer across a card.
+- The headline and the finder button animate in (GSAP). The cards are on the page from the start, with no scroll reveal or pointer effects.
 - Choosing a tool opens a red iris from where you tapped. Switching theme spreads the new one out from the toggle.
 - Light and dark themes, remembered between visits.
 - Nothing moves for people who ask for reduced motion.
