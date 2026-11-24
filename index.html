@@ -207,9 +207,20 @@
   <div class="progress" aria-hidden="true"></div>
 
   <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="hero-glow"></span>
+      <span class="hero-grid"></span>
+      <svg class="hero-rings" viewBox="-400 -400 800 800"><circle r="130" /><circle r="205" /><circle r="290" /></svg>
+      <!-- The turning parts are their own layer, so the browser spins them on the
+           graphics card instead of repainting the rings every frame. -->
+      <svg class="hero-rings hero-orbit" viewBox="-400 -400 800 800">
+        <circle class="dash" r="372" /><circle class="dot" cx="290" cy="0" r="6" /><circle class="dot-amber" cx="-205" cy="0" r="4" />
+      </svg>
+    </div>
     <div class="wrap hero-inner">
       <div class="hero-text">
-        <h1>Every academic tool, one link</h1>
+        <p class="eyebrow"><span class="eyebrow-dot"></span>Ajeenkya D Y Patil University</p>
+        <h1>Every academic tool, <em>one link</em></h1>
         <p class="intro">See today's attendance, find a free room, log a publication or read the monthly report.</p>
         <!-- One shortcut per card, added by js/motion.js. -->
         <div class="chips" id="chips"></div>

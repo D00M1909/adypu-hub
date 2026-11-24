@@ -1,5 +1,5 @@
 /* The front of the page: the hero with its compass, the bearing pill that
-   follows you down the page, the tool finder, and the bearings on the cards.
+   follows you down the page, the tool finder, and the effects on the cards.
    hub.css holds the colours and the cards themselves; this sits on top. */
 
 /* ---- Hero --------------------------------------------------------------- */
@@ -15,9 +15,24 @@
    lifted again if the animation library never arrives). */
 .motion .hero-text, .motion .hero-visual { opacity: 0; }
 
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px;
+  font: 600 12px/1 "IBM Plex Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.eyebrow-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--red-ink);
+  box-shadow: 0 0 0 0 var(--red-tint-strong); animation: ping 2.4s ease-out infinite;
+}
+@keyframes ping { 70%, 100% { box-shadow: 0 0 0 10px transparent; } }
+
 .hero h1 {
   margin: 0; font-family: "Playfair Display", Georgia, serif; font-weight: 700; color: var(--ink);
   font-size: clamp(40px, 5.6vw, 78px); line-height: 1.02; letter-spacing: -0.02em; text-wrap: balance;
+}
+.hero h1 em {
+  font-style: italic; color: var(--red-ink);
+  background: linear-gradient(transparent 86%, var(--red-tint-strong) 86%);
 }
 /* One word per mask, so each can rise out of its own line (js/motion.js). The
    padding keeps descenders and the italic's overhang from being clipped. */
@@ -114,6 +129,36 @@ kbd {
 }
 .dial-target { font-size: 15px; color: var(--ink-soft); min-height: 1.4em; }
 
+/* Behind it all: a soft red light, a dotted grid, and rings that turn slowly. */
+.hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero-glow {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(46% 62% at 76% 46%, rgba(194, 27, 39, 0.16), transparent 70%),
+    radial-gradient(30% 40% at 12% 90%, rgba(251, 191, 36, 0.12), transparent 70%);
+}
+:root[data-theme="dark"] .hero-glow {
+  background:
+    radial-gradient(46% 62% at 76% 46%, rgba(248, 113, 113, 0.18), transparent 70%),
+    radial-gradient(30% 40% at 12% 90%, rgba(251, 191, 36, 0.08), transparent 70%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px); background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(70% 85% at 72% 46%, #000, transparent 78%);
+  mask-image: radial-gradient(70% 85% at 72% 46%, #000, transparent 78%);
+}
+.hero-rings {
+  position: absolute; width: min(1100px, 130vw); aspect-ratio: 1; right: -12%; top: 50%; margin-top: min(-550px, -65vw);
+  fill: none; stroke: var(--hairline); stroke-width: 1;
+}
+.hero-rings { will-change: transform; }
+.hero-rings .dash { stroke-dasharray: 2 9; stroke: var(--ink-faint); }
+.hero-orbit { animation: spin 90s linear infinite; }
+.hero-rings .dot { fill: var(--red-ink); stroke: none; }
+.hero-rings .dot-amber { fill: #FBBF24; stroke: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
 /* "Scroll", with an arrow that nudges downwards; a link to the tools. It
    steps away once you have started scrolling (js/motion.js). */
 .scroll-cue {
@@ -150,9 +195,27 @@ html { scroll-behavior: smooth; }
 }
 .section-label::after { content: ""; flex: 1; height: 1px; background: var(--hairline); }
 
-/* ---- Cards: each carries its bearing ---- */
+/* ---- Cards: a light that follows the pointer, a little tilt, a bearing ---- */
 .cards-area { padding-top: 8px; padding-bottom: 72px; }
-.card { position: relative; }
+.card {
+  position: relative; transform-style: preserve-3d;
+  transition: box-shadow 0.25s, border-color 0.25s, transform 0.18s ease-out;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(194, 27, 39, 0.11), transparent 62%);
+  transition: opacity 0.3s;
+}
+:root[data-theme="dark"] .card::before {
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(248, 113, 113, 0.16), transparent 62%);
+}
+.card:hover::before { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+    box-shadow: 0 22px 44px -18px rgba(15, 23, 42, 0.35), 0 4px 10px rgba(15, 23, 42, 0.08);
+  }
+}
 .card-bearing {
   position: absolute; top: 12px; right: 12px; z-index: 1; padding: 4px 9px; border-radius: 999px;
   font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: 0.04em; color: var(--ink-soft);
@@ -237,11 +300,13 @@ html { scroll-behavior: smooth; }
 @media (max-width: 860px) {
   .hero-inner { grid-template-columns: minmax(0, 1fr); min-height: 0; gap: 8px; padding-top: 28px; padding-bottom: 36px; }
   .hero-visual { width: min(86vw, 380px); }
+  .hero-rings { right: 50%; margin-right: min(-65vw, -550px); top: auto; bottom: -10%; margin-top: 0; }
   .scroll-cue { display: none; }
   .intro { font-size: 17px; margin-top: 18px; }
 }
 @media (max-width: 600px) {
   .hero h1 { font-size: clamp(38px, 11.5vw, 52px); }
+  .eyebrow { font-size: 11px; margin-bottom: 14px; }
   .chips { gap: 8px; margin-top: 22px; }
   .chip { padding: 10px 14px 10px 10px; font-size: 13.5px; }
   .cards-area { padding-bottom: 96px; }
@@ -252,8 +317,8 @@ html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .scroll-cue svg { animation: none; }
-  .hero-canvas, .dial-svg, .chip, .hud, .plaque, .scroll-cue { transition: none; }
+  .eyebrow-dot, .hero-orbit, .scroll-cue svg { animation: none; }
+  .hero-canvas, .dial-svg, .chip, .hud, .card::before, .plaque, .scroll-cue { transition: none; }
   .hero-canvas { transform: none; }
   .plaque.is-on { transform: translateX(-50%); }
   .plaque.is-above.is-on { transform: translate(-50%, -100%); }

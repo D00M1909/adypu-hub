@@ -1,6 +1,6 @@
-// How the page moves: the finder chip, the headline and the intro, and the
-// red iris that opens when you leave for a tool. The cards are simply there:
-// they do not fade in on scroll or follow the pointer.
+// How the page moves: the finder chip, the headline and the intro, cards
+// that rise into place as you scroll, the light on a card that follows the
+// pointer, and the red iris that opens when you leave for a tool.
 //
 // GSAP (loaded from a CDN in index.html) does the choreography. Everything
 // here degrades: with no GSAP the page is simply still, and for people who
@@ -8,6 +8,7 @@
 (function () {
   var root = document.documentElement;
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   var dial = window.ADYPUDial;
   var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
@@ -33,6 +34,25 @@
     b.textContent = dial.format(parseFloat(card.getAttribute('data-bearing')));
     card.querySelector('.card-art').appendChild(b);
   });
+
+  // ---- The light and tilt on a card follow the pointer. ----
+  if (finePointer && !still) {
+    cards.forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        if (e.pointerType !== 'mouse') return;
+        var r = card.getBoundingClientRect();
+        var x = e.clientX - r.left, y = e.clientY - r.top;
+        card.style.setProperty('--mx', x + 'px');
+        card.style.setProperty('--my', y + 'px');
+        card.style.setProperty('--ry', ((x / r.width - 0.5) * 6).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', ((0.5 - y / r.height) * 4).toFixed(2) + 'deg');
+      });
+      card.addEventListener('pointerleave', function () {
+        card.style.removeProperty('--rx');
+        card.style.removeProperty('--ry');
+      });
+    });
+  }
 
   // ---- Leaving: a red iris opens from the tap, then the tool loads. ----
   function leave(url, x, y) {
@@ -118,7 +138,9 @@
   // intro only brings in its readout.
   var intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
   intro
+    .from('.hero-rings', { opacity: 0, scale: 0.88, duration: 2, ease: 'power2.out' }, 0)
     .from('.dial-readout', { opacity: 0, y: 12, duration: 1, ease: 'expo.out' }, 0.5)
+    .from('.eyebrow', { y: 14, opacity: 0, duration: 0.6 }, 0.1)
     .from('.w-in', { yPercent: 118, duration: 1.1, stagger: 0.07 }, 0.2)
     .from('.intro', { y: 18, opacity: 0, duration: 0.8 }, 0.75)
     .from('.chip', { y: 20, opacity: 0, duration: 0.7, stagger: 0.07, clearProps: 'transform,opacity' }, 0.9)
@@ -128,4 +150,39 @@
 
   // The scroll hint has done its job once you have started scrolling.
   ScrollTrigger.create({ trigger: '#hero', start: 'top+=40 top', toggleClass: { targets: '.scroll-cue', className: 'is-gone' } });
+
+  // The rings and text drift at their own pace as the hero scrolls away.
+  gsap.to('.hero-rings:not(.hero-orbit)', { yPercent: 14, rotate: 24, ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero-text', { yPercent: -10, ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  // Cards rise in as they arrive, a pair at a time.
+  gsap.set(cards, { autoAlpha: 0, y: 60 });
+  ScrollTrigger.batch(cards, {
+    start: 'top 92%',
+    once: true,
+    onEnter: function (batch) {
+      gsap.to(batch, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.12, clearProps: 'transform,opacity,visibility' });
+    }
+  });
+
+  // And the drawing on each card builds itself when it comes into view.
+  cards.forEach(function (card) {
+    var when = { trigger: card, start: 'top 88%', once: true };
+    function build(selector, vars) {
+      var found = card.querySelectorAll(selector);
+      if (!found.length) return;
+      vars.scrollTrigger = when;
+      gsap.from(found, vars);
+    }
+    build('.pv-fill, .pv-stack > span',
+      { scaleX: 0, transformOrigin: 'left center', duration: 1.1, ease: 'power3.out', stagger: 0.07, delay: 0.25 });
+    build('.pv-col',
+      { scaleY: 0, transformOrigin: 'bottom center', duration: 0.9, ease: 'back.out(1.4)', stagger: 0.06, delay: 0.25 });
+    build('.pv-slot',
+      { scale: 0.3, opacity: 0, duration: 0.5, ease: 'back.out(2)', stagger: { each: 0.035, from: 'random' }, delay: 0.3 });
+    build('.pv-month, .pv-key, .pv-school svg, .pv-tile svg',
+      { opacity: 0, y: 6, duration: 0.5, stagger: 0.04, delay: 0.4 });
+  });
 })();
